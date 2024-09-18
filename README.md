@@ -58,4 +58,6 @@ forest.draw_tree()
 forest.insert('90', '35')
 forest.draw_tree()
 ```
-## Output File![enter image description here](https://github.com/ganeshb15/forest-visualization/blob/main/two_circles.png?raw=true)
+## Output File
+
+![enter image description here](https://github.com/ganeshb15/forest-visualization/blob/main/two_circles.png?raw=true)
