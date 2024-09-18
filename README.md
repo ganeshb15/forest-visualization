@@ -15,7 +15,7 @@ This package implements a forest visualization algorithm based on the paper [Nov
 
 ## Installation
 
-You can install the `forest-visualizer` [forest-visualization](https://pypi.org/project/forest-visualization/0.1.3/) package directly from PyPI:
+You can install the  [forest-visualization](https://pypi.org/project/forest-visualization/0.1.3/) package directly from PyPI:
 
 ```bash
 pip install forest-visualization==0.1.3
