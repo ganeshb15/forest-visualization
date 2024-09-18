@@ -1,10 +1,14 @@
-from turtle import *
+#from turtle import *
+from PIL import Image, ImageDraw, ImageFont
+
 class Forest:
     def __init__(self):
         self.info = []
         self.noofchildren = []
         self.i = 0
         self.j = 0  # Index for drawing nodes
+
+    
 
 
     def insert(self, NodeName, ParentName):
@@ -257,7 +261,35 @@ class Forest:
         #setup(size_x, size_y)
         self.radius = radius
         self.gap = gap
+        SizeX=size_x
+        SizeY=size_y
 
+        image = Image.new('RGB', (SizeX, SizeY), 'white')
+        draw = ImageDraw.Draw(image)
+
+        def draw_circle(draw, center_x, center_y, radius, text='', outline_color='blue', fill_color=None, text_color='black', line_width=1, font_size=20):
+            # Calculate the bounding box using the center and radius
+            top_left = (center_x - radius, center_y - radius)
+            bottom_right = (center_x + radius, center_y + radius)
+
+            # Draw the circle
+            draw.ellipse([top_left, bottom_right], outline=outline_color, fill=fill_color, width=line_width)
+
+            if text:
+                # Load a font
+                try:
+                    font = ImageFont.truetype("arial.ttf", font_size)
+                except IOError:
+                    font = ImageFont.load_default()
+
+                # Calculate text size and position
+                text_width, text_height = draw.textsize(text, font=font)
+                text_x = center_x - (text_width / 2)
+                text_y = center_y - (text_height / 2)
+
+                # Draw the text
+                draw.text((text_x, text_y), text, fill=text_color, font=font)
+           
         def draw_node(X, height, N, Cx, Cy):
             Init = self.j
             if N != 0:
@@ -268,19 +300,23 @@ class Forest:
                 XEnd = X[0] + BlockDistance
                 for i in range(0, N):
                     self.j += 1
-                    up()
-                    goto(XCenter, height - radius)
-                    down()
-                    circle(radius)
+                    #up()
+                    #goto(XCenter, height - radius)
+                    draw_circle(draw, center_x=XCenter+(SizeX/2), center_y=SizeY/2-(height), radius=radius, outline_color='red',text=Info[self.j - 1])
+                    #down()
+                    #circle(radius)
                     if Init != 0:
-                        up()
-                        goto(Cx, Cy)
-                        down()
-                        goto(XCenter, height + radius)
-                    up()
-                    goto(XCenter, height - radius / 4)
-                    down()
-                    write(Info[self.j - 1], align="center", font=("Arial", 16, "bold"))
+                        #up()
+                        #goto(Cx, Cy)
+                        #down()
+                        #goto(XCenter, height + radius)
+                        start = (Cx+(SizeX/2),SizeY/2-Cy)
+                        end = (XCenter+(SizeX/2), SizeY/2-(height+radius))
+                        draw.line([start, end], fill='black', width=1)
+                    #up()
+                    #goto(XCenter, height - radius / 4)
+                    #down()
+                    #write(Info[self.j - 1], align="center", font=("Arial", 16, "bold"))
                     XCordinate[self.j] = [[XStart, XEnd], XCenter, height - radius]
                     XStart = XEnd
                     XEnd += BlockDistance
@@ -297,5 +333,7 @@ class Forest:
         for i in range(0, len(InputTree)):
             N = InputTree[i]
             draw_node(XCordinate[i][0], XCordinate[i][2] - radius - gap, N, XCordinate[i][1], XCordinate[i][2])
-        getscreen()._root.mainloop()
+        #getscreen()._root.mainloop()
+        image.save('two_circles.png')
+        image.show()
         self.j = 0  # Index for drawing nodes
